@@ -146,6 +146,157 @@ const Activities = () => {
   );
 };
 
+const ActivityHistory = () => {
+  const [currentActivity, setCurrentActivity] = useState(0);
+  
+  const activityHistory = [
+    {
+      id: 1,
+      date: "2024年8月",
+      title: "夏の交流イベント開催",
+      description: "長期滞在者と地域住民による交流BBQイベントを開催。約50名が参加し、地域課題について活発な意見交換が行われました。",
+      images: [
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300", 
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300"
+      ],
+      link: "#"
+    },
+    {
+      id: 2,
+      date: "2024年7月",
+      title: "地域資源活用ワークショップ",
+      description: "釧路の未活用資源を活用した新商品開発に向けたワークショップを実施。地元事業者と滞在者が協力してアイデア創出を行いました。",
+      images: [
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300"
+      ],
+      link: "#"
+    },
+    {
+      id: 3,
+      date: "2024年6月",
+      title: "環境保全活動",
+      description: "釧路湿原の清掃活動を実施。滞在者と地域の方々が協力して美しい自然環境の保全に取り組みました。",
+      images: [
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300"
+      ],
+      link: "#"
+    },
+    {
+      id: 4,
+      date: "2024年5月",
+      title: "中高生向けキャリア講座",
+      description: "多様な職業経験を持つ滞在者による、地元中高生向けのキャリア教育講座を開催。将来の可能性について語り合いました。",
+      images: [
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300"
+      ],
+      link: "#"
+    },
+    {
+      id: 5,
+      date: "2024年4月",
+      title: "研究所設立記念シンポジウム",
+      description: "地域づくりの専門家を招いたシンポジウムを開催。今後の活動方針と地域課題解決に向けた取り組みについて議論しました。",
+      images: [
+        "/api/placeholder/400/300",
+        "/api/placeholder/400/300"
+      ],
+      link: "#"
+    }
+  ];
+
+  const scrollToImage = (activityIndex, imageIndex) => {
+    const container = document.getElementById(`slider-${activityIndex}`);
+    if (container) {
+      const imageWidth = container.children[0].offsetWidth + 12; // 12px for gap
+      container.scrollTo({
+        left: imageIndex * imageWidth,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-green-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">活動実績</h2>
+          <p className="text-lg text-gray-600">
+            これまでの活動内容をご紹介します
+          </p>
+        </div>
+
+        <div className="space-y-12">
+          {activityHistory.map((activity, index) => (
+            <div key={activity.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-1">
+              <div className="lg:flex">
+                <div className="lg:w-1/2 p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                      {activity.date}
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">{activity.title}</h3>
+                  <p className="text-gray-600 leading-relaxed mb-6">{activity.description}</p>
+                  <a 
+                    href={activity.link}
+                    className="inline-flex items-center bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-full hover:from-blue-700 hover:to-green-700 transition-all transform hover:scale-105 font-medium shadow-lg"
+                  >
+                    詳細を見る <ArrowRight className="ml-2 w-5 h-5" />
+                  </a>
+                </div>
+                
+                <div className="lg:w-1/2 p-8">
+                  <div className="relative">
+                    <div 
+                      id={`slider-${index}`}
+                      className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth"
+                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                      {activity.images.map((image, imgIndex) => (
+                        <div key={imgIndex} className="flex-shrink-0 w-48 h-32">
+                          <img 
+                            src={image} 
+                            alt={`${activity.title} ${imgIndex + 1}`}
+                            className="w-full h-full object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                            onClick={() => scrollToImage(index, imgIndex)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {activity.images.length > 1 && (
+                      <div className="flex justify-center mt-4 space-x-2">
+                        {activity.images.map((_, imgIndex) => (
+                          <button
+                            key={imgIndex}
+                            onClick={() => scrollToImage(index, imgIndex)}
+                            className="w-2 h-2 rounded-full bg-gray-300 hover:bg-blue-500 transition-colors"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Members = () => {
   const members = [
     {
@@ -356,6 +507,7 @@ export default function Home() {
       <Hero />
       <About />
       <Activities />
+      <ActivityHistory />
       <Members />
       <Contact />
       <Footer />
